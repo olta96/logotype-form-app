@@ -10,6 +10,7 @@ import { ReactComponent as Line } from "../svgs/Line.svg";
 import { ReactComponent as Waves } from "../svgs/Waves.svg";
 import { ReactComponent as Star } from "../svgs/Star.svg";
 import { ReactComponent as Waterdrop } from "../svgs/Waterdrop.svg";
+import { ReactComponent as Sun } from "../svgs/Sun.svg";
 
 export default class Main extends Component {
 
@@ -65,6 +66,7 @@ const secondForms = [
 const thirdForms = [
     Star,
     Waterdrop,
+    Sun,
 ];
 
 /** @type {CSSStyleDeclaration} */

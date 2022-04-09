@@ -7,15 +7,26 @@ export default class Build extends Component {
         return (
             <div style={buildStyle}>
                 <h1 style={titleStyle}>Bygg ihop din egen logotyp utifrån sloganen</h1>
-                <LogoPreview
-                    firstForm={this.props.firstForm}
-                    secondForm={this.props.secondForm}
-                    thirdForm={this.props.thirdForm}
-                />
+                <div style={logoPreviewContainerStyle}>
+                    <LogoPreview
+                        firstForm={this.props.firstForm}
+                        secondForm={this.props.secondForm}
+                        thirdForm={this.props.thirdForm}
+                    />
+                </div>
             </div>
         );
     }
 
+}
+
+/** @type {CSSStyleDeclaration} */
+const logoPreviewContainerStyle = {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "100px",
 }
 
 /** @type {CSSStyleDeclaration} */
