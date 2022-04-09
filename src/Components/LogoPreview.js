@@ -4,20 +4,46 @@ import React, { Component } from "react";
 
 export default class LogoPreview extends Component {
 
+
+
     render = () => {
         return (
             <div style={logoPreviewStyle}>
                 <this.props.firstForm
                     className="logoPreviewForm"
-                    style={Object.assign({}, baseFormStyle, firstFormStyle, { fill: this.props.currentFormColors.firstForm.color })}
+                    style={Object.assign({},
+                        baseFormStyle,
+                        firstFormStyle,
+                        {
+                            fill: this.props.currentFormState.firstForm.color,
+                            top: this.props.currentFormState.firstForm.top + "px",
+                            left: this.props.currentFormState.firstForm.left + "px",
+                        }
+                    )}
                 />
                 <this.props.secondForm
                     className="logoPreviewForm"
-                    style={Object.assign({}, baseFormStyle, secondFormStyle, { fill: this.props.currentFormColors.secondForm.color })}
+                    style={Object.assign({},
+                        baseFormStyle,
+                        secondFormStyle,
+                        {
+                            fill: this.props.currentFormState.secondForm.color,
+                            top: this.props.currentFormState.secondForm.top + "px",
+                            left: this.props.currentFormState.secondForm.left + "px",
+                        }
+                    )}
                 />
                 <this.props.thirdForm
                     className="logoPreviewForm"
-                    style={Object.assign({}, baseFormStyle, thirdFormStyle, { fill: this.props.currentFormColors.thirdForm.color })}
+                    style={Object.assign({},
+                        baseFormStyle,
+                        thirdFormStyle,
+                        {
+                            fill: this.props.currentFormState.thirdForm.color,
+                            top: this.props.currentFormState.thirdForm.top + "px",
+                            left: this.props.currentFormState.thirdForm.left + "px",
+                        }
+                    )}
                 />
             </div>
         );
@@ -36,7 +62,7 @@ const firstFormStyle = {
 }
 
 const secondFormStyle = {
-    top: "100px",
+    width: "200px"
 }
 
 const thirdFormStyle = {

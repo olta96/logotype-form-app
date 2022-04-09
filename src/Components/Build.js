@@ -13,7 +13,7 @@ export default class Build extends Component {
                         firstForm={this.props.firstForm}
                         secondForm={this.props.secondForm}
                         thirdForm={this.props.thirdForm}
-                        currentFormColors={this.props.currentFormColors}
+                        currentFormState={this.props.currentFormState}
                     />
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ColorOption from "./ColorOption";
 import BaseFormOption from "./BaseFormOption";
+import Slider from "@mui/material/Slider";
 
 
 
@@ -8,8 +9,8 @@ export default class SideBar extends Component {
 
     state = {
         selectedFirstForm: 0,
-        selectedSecondForm: 4,
-        selectedThirdForm: 8,
+        selectedSecondForm: this.props.firstForms.length,
+        selectedThirdForm: this.props.firstForms.length + this.props.secondForms.length,
     }
 
     handleBaseFormOptionClick = (id) => {
@@ -30,7 +31,7 @@ export default class SideBar extends Component {
                     return (
                         <ColorOption
                             color={color}
-                            isSelected={this.props.currentFormColors[forForm].id === colorId}
+                            isSelected={this.props.currentFormState[forForm].colorId === colorId}
                             handleColorOptionClick={this.props.handleColorOptionClick}
                             id={colorId}
                             forForm={forForm}
@@ -73,6 +74,19 @@ export default class SideBar extends Component {
         return this.buildBaseFormGrid(this.props.thirdForms, 8, this.state.selectedThirdForm);
     }
 
+    getPositionSlider = (forForm, axis, initialValue) => {
+        return (
+            <div>
+                <Slider
+                    max={200}
+                    defaultValue={initialValue}
+                    valueLabelDisplay="auto"
+                    onChange={(_e, value) => this.props.positionSliderChange(value, forForm, axis)}
+                />
+            </div>
+        )
+    }
+
     render = () => {
         return (
             <div style={sideBarStyle}>
@@ -89,6 +103,8 @@ export default class SideBar extends Component {
                                 {this.buildColorGrid("firstForm")}
                             </div>
                         </div>
+                        {this.getPositionSlider("firstForm", "top", 0)}
+                        {this.getPositionSlider("firstForm", "left", 100)}
                     </li>
                     <li>
                         <div>
@@ -102,10 +118,12 @@ export default class SideBar extends Component {
                                 {this.buildColorGrid("secondForm")}
                             </div>
                         </div>
+                        {this.getPositionSlider("secondForm", "top", 100)}
+                        {this.getPositionSlider("secondForm", "left", 100)}
                     </li>
                     <li>
                         <div>
-                            Välj en eller flera detaljformer
+                            Välj en detaljformer
                         </div>
                         <div style={formAndColorContainerStyle}>
                             <div style={gridStyleContainer}>
@@ -115,6 +133,8 @@ export default class SideBar extends Component {
                                 {this.buildColorGrid("thirdForm")}
                             </div>
                         </div>
+                        {this.getPositionSlider("thirdForm", "top", 100)}
+                        {this.getPositionSlider("thirdForm", "left", 100)}
                     </li>
                 </ol>
             </div>

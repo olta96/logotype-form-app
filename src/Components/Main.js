@@ -11,6 +11,7 @@ import { ReactComponent as Star } from "../svgs/Star.svg";
 import { ReactComponent as Waterdrop } from "../svgs/Waterdrop.svg";
 import { ReactComponent as Sun } from "../svgs/Sun.svg";
 import { ReactComponent as Tree } from "../svgs/Tree.svg";
+import { ReactComponent as None } from "../svgs/None.svg";
 
 export default class Main extends Component {
 
@@ -18,18 +19,24 @@ export default class Main extends Component {
         firstForm: Bottom_semicircle,
         secondForm: Waves,
         thirdForm: Star,
-        currentFormColors: {
+        currentFormState: {
             firstForm: {
-                id: 0,
+                colorId: 0,
                 color: colors[0],
+                top: 0,
+                left: 100,
             },
             secondForm: {
-                id: 0,
+                colorId: 0,
                 color: colors[0],
+                top: 100,
+                left: 100,
             },
             thirdForm: {
-                id: 0,
+                colorId: 0,
                 color: colors[0],
+                top: 100,
+                left: 100,
             },
         },
     }
@@ -45,11 +52,24 @@ export default class Main extends Component {
 
     handleColorOptionClick = (forForm, id) => {
         this.setState({
-            currentFormColors: {
-                ...this.state.currentFormColors,
+            currentFormState: {
+                ...this.state.currentFormState,
                 [forForm]: {
-                    id: id,
+                    ...this.state.currentFormState[forForm],
+                    colorId: id,
                     color: colors[id],
+                }
+            }
+        });
+    }
+
+    positionSliderChange = (value, forForm, axis) => {
+        this.setState({
+            currentFormState: {
+                ...this.state.currentFormState,
+                [forForm]: {
+                    ...this.state.currentFormState[forForm],
+                    [axis]: value,
                 }
             }
         });
@@ -65,13 +85,14 @@ export default class Main extends Component {
                     thirdForms={thirdForms}
                     handleFormSelection={this.handleFormSelection}
                     handleColorOptionClick={this.handleColorOptionClick}
-                    currentFormColors={this.state.currentFormColors}
+                    currentFormState={this.state.currentFormState}
+                    positionSliderChange={this.positionSliderChange}
                 />
                 <Build
                     firstForm={this.state.firstForm}
                     secondForm={this.state.secondForm}
                     thirdForm={this.state.thirdForm}
-                    currentFormColors={this.state.currentFormColors}
+                    currentFormState={this.state.currentFormState}
                 />
             </main>
         );
@@ -105,6 +126,7 @@ const secondForms = [
 ];
 
 const thirdForms = [
+    None,
     Star,
     Waterdrop,
     Sun,
