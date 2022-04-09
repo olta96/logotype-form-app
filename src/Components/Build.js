@@ -9,9 +9,11 @@ export default class Build extends Component {
                 <h1 style={titleStyle}>Bygg ihop din egen logotyp utifrån sloganen</h1>
                 <div style={logoPreviewContainerStyle}>
                     <LogoPreview
+                        handleFormSelectionForColoring={this.props.handleFormSelectionForColoring}
                         firstForm={this.props.firstForm}
                         secondForm={this.props.secondForm}
                         thirdForm={this.props.thirdForm}
+                        currentFormColors={this.props.currentFormColors}
                     />
                 </div>
             </div>
@@ -31,7 +33,7 @@ const logoPreviewContainerStyle = {
 
 /** @type {CSSStyleDeclaration} */
 const buildStyle = {
-    width: "75%",
+    width: "60%",
 }
 
 /** @type {CSSStyleDeclaration} */

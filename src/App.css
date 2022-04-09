@@ -3,7 +3,7 @@ body {
 }
 
 .colorOptionSelected {
-	border: 2px solid black;
+	border: 3px solid black;
 }
 
 .colorOption:hover {
@@ -11,8 +11,28 @@ body {
 	border: 4px solid black;
 }
 
+.logoPreviewForm > path {
+	stroke: none
+}
+
+.logoPreviewForm > circle {
+	stroke: none
+}
+
 .baseFormOptionSelected > path {
 	stroke: seagreen;
+}
+
+.baseFormOptionSelected > circle {
+	stroke: seagreen;
+}
+
+.selectedForColoring > path {
+	stroke: gray;
+}
+
+.selectedForColoring > circle {
+	stroke: gray;
 }
 
 li {

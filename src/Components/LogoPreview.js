@@ -7,9 +7,18 @@ export default class LogoPreview extends Component {
     render = () => {
         return (
             <div style={logoPreviewStyle}>
-                <this.props.firstForm style={Object.assign({}, baseFormStyle, firstFormStyle)}/>
-                <this.props.secondForm style={Object.assign({}, baseFormStyle, secondFormStyle)}/>
-                <this.props.thirdForm style={Object.assign({}, baseFormStyle, thirdFormStyle)}/>
+                <this.props.firstForm
+                    className="logoPreviewForm"
+                    style={Object.assign({}, baseFormStyle, firstFormStyle, { fill: this.props.currentFormColors.firstForm.color })}
+                />
+                <this.props.secondForm
+                    className="logoPreviewForm"
+                    style={Object.assign({}, baseFormStyle, secondFormStyle, { fill: this.props.currentFormColors.secondForm.color })}
+                />
+                <this.props.thirdForm
+                    className="logoPreviewForm"
+                    style={Object.assign({}, baseFormStyle, thirdFormStyle, { fill: this.props.currentFormColors.thirdForm.color })}
+                />
             </div>
         );
     }
@@ -19,8 +28,7 @@ export default class LogoPreview extends Component {
 /** @type {CSSStyleDeclaration} */
 const baseFormStyle = {
     position: "absolute",
-    width: "200px",
-    height: "200px",
+    stroke: "none",
 }
 
 const firstFormStyle = {

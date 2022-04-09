@@ -11,7 +11,6 @@ export default class BaseFormOption extends Component {
     }
 
     getClassNames = () => {
-        console.log(this.props.isSelected)
         return this.props.isSelected ? "baseFormOption baseFormOptionSelected" : "baseFormOption";
     }
 
@@ -20,7 +19,6 @@ export default class BaseFormOption extends Component {
         const style = Object.assign({}, baseFormOptionStyle);
 
         if (this.props.isSelected) {
-            // style.fill = "teal";
             style.backgroundColor = "#ccc";
         }
         
@@ -39,7 +37,6 @@ export default class BaseFormOption extends Component {
     }
 
     render = () => {
-        console.log(this.props.src)
         return (
             <this.props.baseForm
                 className={this.getClassNames()}

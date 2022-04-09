@@ -6,11 +6,11 @@ import { ReactComponent as Bottom_semicircle } from "../svgs/Bottom_semicircle.s
 import { ReactComponent as Circle } from "../svgs/Circle.svg";
 import { ReactComponent as Sunrise } from "../svgs/Sunrise.svg";
 import { ReactComponent as Top_semicircle } from "../svgs/Top_semicircle.svg";
-import { ReactComponent as Line } from "../svgs/Line.svg";
 import { ReactComponent as Waves } from "../svgs/Waves.svg";
 import { ReactComponent as Star } from "../svgs/Star.svg";
 import { ReactComponent as Waterdrop } from "../svgs/Waterdrop.svg";
 import { ReactComponent as Sun } from "../svgs/Sun.svg";
+import { ReactComponent as Tree } from "../svgs/Tree.svg";
 
 export default class Main extends Component {
 
@@ -18,6 +18,20 @@ export default class Main extends Component {
         firstForm: Bottom_semicircle,
         secondForm: Waves,
         thirdForm: Star,
+        currentFormColors: {
+            firstForm: {
+                id: 0,
+                color: colors[0],
+            },
+            secondForm: {
+                id: 0,
+                color: colors[0],
+            },
+            thirdForm: {
+                id: 0,
+                color: colors[0],
+            },
+        },
     }
 
     handleFormSelection = (formId) => {
@@ -29,25 +43,52 @@ export default class Main extends Component {
             this.setState({ thirdForm: thirdForms[formId - firstForms.length - secondForms.length] });
     }
 
+    handleColorOptionClick = (forForm, id) => {
+        this.setState({
+            currentFormColors: {
+                ...this.state.currentFormColors,
+                [forForm]: {
+                    id: id,
+                    color: colors[id],
+                }
+            }
+        });
+    }
+
     render() {
         return (
             <main style={mainStyle}>
                 <SideBar
+                    colors={colors}
                     firstForms={firstForms}
                     secondForms={secondForms}
                     thirdForms={thirdForms}
                     handleFormSelection={this.handleFormSelection}
+                    handleColorOptionClick={this.handleColorOptionClick}
+                    currentFormColors={this.state.currentFormColors}
                 />
                 <Build
                     firstForm={this.state.firstForm}
                     secondForm={this.state.secondForm}
                     thirdForm={this.state.thirdForm}
+                    currentFormColors={this.state.currentFormColors}
                 />
             </main>
         );
     }
 
 }
+
+const colors = [
+    "red",
+    "green",
+    "blue",
+    "yellow",
+    "orange",
+    "purple",
+    "pink",
+    "brown",
+];
 
 const firstForms = [
     Bottom_semicircle,
@@ -58,7 +99,7 @@ const firstForms = [
 
 const secondForms = [
     Waves,
-    Line,
+    Circle,
     Bottom_semicircle,
     Top_semicircle,
 ];
@@ -67,6 +108,7 @@ const thirdForms = [
     Star,
     Waterdrop,
     Sun,
+    Tree,
 ];
 
 /** @type {CSSStyleDeclaration} */

@@ -7,14 +7,9 @@ import BaseFormOption from "./BaseFormOption";
 export default class SideBar extends Component {
 
     state = {
-        selectedColor: 0,
         selectedFirstForm: 0,
         selectedSecondForm: 4,
         selectedThirdForm: 8,
-    }
-
-    handleColorOptionClick = (id) => {
-        this.setState({ selectedColor: id });
     }
 
     handleBaseFormOptionClick = (id) => {
@@ -27,18 +22,19 @@ export default class SideBar extends Component {
         this.props.handleFormSelection(id);
     }
 
-    buildColorGrid = () => {
+    buildColorGrid = (forForm) => {
         let colorId = 0;
         return (
             <div style={colorGridStyle}>
-                {colors.map(color => {
+                {this.props.colors.map(color => {
                     return (
                         <ColorOption
                             color={color}
-                            isSelected={this.state.selectedColor === colorId}
+                            isSelected={this.props.currentFormColors[forForm].id === colorId}
+                            handleColorOptionClick={this.props.handleColorOptionClick}
                             id={colorId}
+                            forForm={forForm}
                             key={colorId++}
-                            handleClick={this.handleColorOptionClick}
                         />
                     )
                 })}
@@ -83,34 +79,41 @@ export default class SideBar extends Component {
                 <ol>
                     <li>
                         <div>
-                            Välj en eller flera färger
-                        </div>
-                        <div style={gridStyleContainer}>
-                            {this.buildColorGrid()}
-                        </div>
-                    </li>
-                    <li>
-                        <div>
                             Välj en basform
                         </div>
-                        <div style={gridStyleContainer}>
-                            {this.buildFirstFormGrid()}
+                        <div style={formAndColorContainerStyle}>
+                            <div style={gridStyleContainer}>
+                                {this.buildFirstFormGrid()}
+                            </div>
+                            <div style={gridStyleContainer}>
+                                {this.buildColorGrid("firstForm")}
+                            </div>
                         </div>
                     </li>
                     <li>
                         <div>
                             Välj en sekundärform
                         </div>
-                        <div style={gridStyleContainer}>
-                            {this.buildSecondFormGrid()}
+                        <div style={formAndColorContainerStyle}>
+                            <div style={gridStyleContainer}>
+                                {this.buildSecondFormGrid()}
+                            </div>
+                            <div style={gridStyleContainer}>
+                                {this.buildColorGrid("secondForm")}
+                            </div>
                         </div>
                     </li>
                     <li>
                         <div>
                             Välj en eller flera detaljformer
                         </div>
-                        <div style={gridStyleContainer}>
-                            {this.buildThirdFormGrid()}
+                        <div style={formAndColorContainerStyle}>
+                            <div style={gridStyleContainer}>
+                                {this.buildThirdFormGrid()}
+                            </div>
+                            <div style={gridStyleContainer}>
+                                {this.buildColorGrid("thirdForm")}
+                            </div>
                         </div>
                     </li>
                 </ol>
@@ -120,21 +123,17 @@ export default class SideBar extends Component {
 
 }
 
-const colors = [
-    "red",
-    "green",
-    "blue",
-    "yellow",
-    "orange",
-    "purple",
-    "pink",
-    "brown",
-];
+/** @type {CSSStyleDeclaration} */
+const formAndColorContainerStyle = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+}
 
 /** @type {CSSStyleDeclaration} */
 const colorGridStyle = {
     display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
+    gridTemplateColumns: "repeat(2, 1fr)",
 }
 
 /** @type {CSSStyleDeclaration} */
