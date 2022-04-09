@@ -5,7 +5,7 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-                Hej Linnea!
+                Hej Linnea T!
             </div>
         );
     }
