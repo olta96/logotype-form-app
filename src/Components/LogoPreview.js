@@ -16,8 +16,9 @@ export default class LogoPreview extends Component {
                         firstFormStyle,
                         {
                             fill: this.props.currentFormState.firstForm.color,
-                            top: this.props.currentFormState.firstForm.top + "px",
+                            bottom: (100 + this.props.currentFormState.firstForm.top) + "px",
                             left: this.props.currentFormState.firstForm.left + "px",
+                            zIndex: this.props.currentFormState.firstForm.zIndex,
                         }
                     )}
                 />
@@ -28,8 +29,9 @@ export default class LogoPreview extends Component {
                         secondFormStyle,
                         {
                             fill: this.props.currentFormState.secondForm.color,
-                            top: this.props.currentFormState.secondForm.top + "px",
+                            bottom: (100 + this.props.currentFormState.secondForm.top) + "px",
                             left: this.props.currentFormState.secondForm.left + "px",
+                            zIndex: this.props.currentFormState.secondForm.zIndex,
                         }
                     )}
                 />
@@ -40,8 +42,22 @@ export default class LogoPreview extends Component {
                         thirdFormStyle,
                         {
                             fill: this.props.currentFormState.thirdForm.color,
-                            top: this.props.currentFormState.thirdForm.top + "px",
-                            left: this.props.currentFormState.thirdForm.left + "px",
+                            bottom: (125 + this.props.currentFormState.thirdForm.top) + "px",
+                            left: (75 + this.props.currentFormState.thirdForm.left) + "px",
+                            zIndex: this.props.currentFormState.thirdForm.zIndex,
+                        }
+                    )}
+                />
+                <this.props.fourthForm
+                    className="logoPreviewForm"
+                    style={Object.assign({},
+                        baseFormStyle,
+                        thirdFormStyle,
+                        {
+                            fill: this.props.currentFormState.fourthForm.color,
+                            bottom: (125 + this.props.currentFormState.fourthForm.top) + "px",
+                            left: (75 + this.props.currentFormState.fourthForm.left) + "px",
+                            zIndex: this.props.currentFormState.fourthForm.zIndex,
                         }
                     )}
                 />

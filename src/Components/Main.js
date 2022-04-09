@@ -7,36 +7,82 @@ import { ReactComponent as Circle } from "../svgs/Circle.svg";
 import { ReactComponent as Sunrise } from "../svgs/Sunrise.svg";
 import { ReactComponent as Top_semicircle } from "../svgs/Top_semicircle.svg";
 import { ReactComponent as Waves } from "../svgs/Waves.svg";
+import { ReactComponent as None } from "../svgs/None.svg";
 import { ReactComponent as Star } from "../svgs/Star.svg";
 import { ReactComponent as Waterdrop } from "../svgs/Waterdrop.svg";
 import { ReactComponent as Sun } from "../svgs/Sun.svg";
 import { ReactComponent as Tree } from "../svgs/Tree.svg";
-import { ReactComponent as None } from "../svgs/None.svg";
+import { ReactComponent as Leaf } from "../svgs/Leaf.svg";
+
+const colors = [
+    "#F84949",
+    "#FA12C7",
+    "#F7DF03",
+    "#03E8F7",
+    "#03DF0C",
+    "#9903DF",
+    "#3364B0",
+    "#FF9900",
+];
+
+const firstForms = [
+    Top_semicircle,
+    Bottom_semicircle,
+    Sunrise,
+    Circle,
+];
+
+const secondForms = [
+    Bottom_semicircle,
+    Top_semicircle,
+    Waves,
+    Circle,
+];
+
+const thirdForms = [
+    None,
+    Star,
+    Waterdrop,
+    Sun,
+    Tree,
+    Leaf,
+];
 
 export default class Main extends Component {
 
     state = {
-        firstForm: Bottom_semicircle,
-        secondForm: Waves,
-        thirdForm: Star,
+        firstForm: firstForms[0],
+        secondForm: secondForms[0],
+        thirdForm: thirdForms[0],
+        fourthForm: thirdForms[0],
         currentFormState: {
             firstForm: {
                 colorId: 0,
                 color: colors[0],
-                top: 0,
+                top: 200,
                 left: 100,
+                zIndex: 1,
             },
             secondForm: {
                 colorId: 0,
                 color: colors[0],
                 top: 100,
                 left: 100,
+                zIndex: 1,
             },
             thirdForm: {
                 colorId: 0,
                 color: colors[0],
                 top: 100,
                 left: 100,
+                zIndex: 1,
+            },
+            fourthForm: {
+                colorId: 0,
+                color: colors[0],
+                top: 200,
+                left: 200,
+                zIndex: 1,
             },
         },
     }
@@ -48,6 +94,8 @@ export default class Main extends Component {
             this.setState({ secondForm: secondForms[formId - firstForms.length] });
         else if (formId < firstForms.length + secondForms.length + thirdForms.length)
             this.setState({ thirdForm: thirdForms[formId - firstForms.length - secondForms.length] });
+        else if (formId < firstForms.length + secondForms.length + thirdForms.length + thirdForms.length)
+            this.setState({ fourthForm: thirdForms[formId - firstForms.length - secondForms.length - thirdForms.length] });
     }
 
     handleColorOptionClick = (forForm, id) => {
@@ -75,6 +123,18 @@ export default class Main extends Component {
         });
     }
 
+    zIndexRadioChange = (value, forForm) => {
+        this.setState({
+            currentFormState: {
+                ...this.state.currentFormState,
+                [forForm]: {
+                    ...this.state.currentFormState[forForm],
+                    zIndex: value,
+                }
+            }
+        });
+    }
+
     render() {
         return (
             <main style={mainStyle}>
@@ -87,11 +147,13 @@ export default class Main extends Component {
                     handleColorOptionClick={this.handleColorOptionClick}
                     currentFormState={this.state.currentFormState}
                     positionSliderChange={this.positionSliderChange}
+                    zIndexRadioChange={this.zIndexRadioChange}
                 />
                 <Build
                     firstForm={this.state.firstForm}
                     secondForm={this.state.secondForm}
                     thirdForm={this.state.thirdForm}
+                    fourthForm={this.state.fourthForm}
                     currentFormState={this.state.currentFormState}
                 />
             </main>
@@ -99,39 +161,6 @@ export default class Main extends Component {
     }
 
 }
-
-const colors = [
-    "red",
-    "green",
-    "blue",
-    "yellow",
-    "orange",
-    "purple",
-    "pink",
-    "brown",
-];
-
-const firstForms = [
-    Bottom_semicircle,
-    Sunrise,
-    Top_semicircle,
-    Circle,
-];
-
-const secondForms = [
-    Waves,
-    Circle,
-    Bottom_semicircle,
-    Top_semicircle,
-];
-
-const thirdForms = [
-    None,
-    Star,
-    Waterdrop,
-    Sun,
-    Tree,
-];
 
 /** @type {CSSStyleDeclaration} */
 const mainStyle = {
