@@ -55,12 +55,15 @@ export default class Survey extends Component {
     getDoneButton = (disabled) => {
         return (
             <div style={buttonContainerStyle}>
-                <PleaseAnswerAllQuestionsSmall isEnabled={disabled}/>
+                <PleaseAnswerAllQuestionsSmall
+                    isEnabled={disabled}
+                    text="Vänligen välj ett alternativ för varje logotyp"
+                />
                 <Button
                     style={{ marginTop: "10px" }}
                     variant="contained"
                     size="large"
-                    onClick={this.nextQuestion}
+                    onClick={() => this.props.handleSurveyComplete(this.props.surveyPageId, this.state)}
                     disabled={disabled}
                 >
                     Gå Vidare Till Nästa Varumärke
@@ -125,14 +128,15 @@ export default class Survey extends Component {
                 {
                     this.state.question === 0 ?
                         <div>
-                            <h1 style={questionStyle}>Den vänstra logotypen är resultatet av dina val. Den högra logotypen är varumärkets egentliga logotyp. Kan du gissa vilket varumärke som ligger bakom den högra logotypen och dess slogan ovan?</h1>
+                            <h1 style={questionStyle}><i>"{this.props.surveyProps.slogan}"</i><br />Den vänstra logotypen är resultatet av dina val. Den högra logotypen är varumärkets egentliga logotyp. Kan du gissa vilket varumärke som ligger bakom den högra logotypen och dess slogan ovan?</h1>
                             <div style={logosContainerStyle}>
                                 <div style={logoPreviewStyle}>
                                     <LogoPreview
                                         currentFormState={this.props.logoFormState}
+                                        noFill={this.props.noFill}
                                     />
                                 </div>
-                                <this.props.surveyProps.actualLogo
+                                <this.props.surveyProps.actualLogoNoName
                                     style={actualLogoStyle}
                                 />
                             </div>
@@ -179,6 +183,7 @@ export default class Survey extends Component {
                                 <div style={logoPreviewStyle}>
                                     <LogoPreview
                                         currentFormState={this.props.logoFormState}
+                                        noFill={this.props.noFill}
                                     />
                                 </div>
                                 <div style={questionSetStyle}>
@@ -243,6 +248,7 @@ export default class Survey extends Component {
                                 <div style={logoPreviewStyle}>
                                     <LogoPreview
                                         currentFormState={this.props.logoFormState}
+                                        noFill={this.props.noFill}
                                     />
                                 </div>
                             </div>
@@ -278,6 +284,7 @@ export default class Survey extends Component {
                                 <div style={logoPreviewStyle}>
                                     <LogoPreview
                                         currentFormState={this.props.logoFormState}
+                                        noFill={this.props.noFill}
                                     />
                                 </div>
                             </div>
@@ -335,6 +342,7 @@ const buttonContainerStyle = {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
+    marginBottom: "55px",
 }
 
 /** @type {CSSStyleDeclaration} */

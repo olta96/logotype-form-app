@@ -12,12 +12,12 @@ export default class Build extends Component {
                 <div style={logoPreviewContainerStyle}>
                     <LogoPreview
                         currentFormState={this.props.currentFormState}
+                        noFill={this.props.noFill}
                     />
                 </div>
                 <div style={buttonContainerStyle}>                    
                     <Button
                         variant="contained"
-                        color="success"
                         size="large"
                         onClick={this.props.handleLogoBuilderComplete}
                     >
@@ -49,7 +49,7 @@ const logoPreviewContainerStyle = {
 
 /** @type {CSSStyleDeclaration} */
 const buildStyle = {
-    width: "70%",
+    width: "66%",
 }
 
 /** @type {CSSStyleDeclaration} */

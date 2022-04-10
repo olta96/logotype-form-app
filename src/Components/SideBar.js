@@ -71,25 +71,38 @@ export default class SideBar extends Component {
     getZIndexRadioButtons = (forForm, initialValue) => {
         return (
             <FormControl>
-                <FormLabel id="chose-z-index">Z-index</FormLabel>
                 <RadioGroup
                     row
                     aria-labelledby="chose-z-index"
                     defaultValue="female"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel value="1" control={<Radio />} label="1" checked={initialValue === 1}
+                    <small style={zIndexLabelStyle}>Underst</small>
+                    <FormControlLabel
+                        value="1"
+                        control={<Radio />}
+                        checked={initialValue === 1}
                         onClick={() => this.props.zIndexRadioChange(1, forForm)}
                     />
-                    <FormControlLabel value="2" control={<Radio />} label="2" checked={initialValue === 2}
+                    <FormControlLabel
+                        value="2"
+                        control={<Radio />}
+                        checked={initialValue === 2}
                         onClick={() => this.props.zIndexRadioChange(2, forForm)}
                     />
-                    <FormControlLabel value="3" control={<Radio />} label="3" checked={initialValue === 3}
+                    <FormControlLabel
+                        value="3"
+                        control={<Radio />}
+                        checked={initialValue === 3}
                         onClick={() => this.props.zIndexRadioChange(3, forForm)}
                     />
-                    <FormControlLabel value="4" control={<Radio />} label="4" checked={initialValue === 4}
+                    <FormControlLabel
+                        value="4"
+                        control={<Radio />}
+                        checked={initialValue === 4}
                         onClick={() => this.props.zIndexRadioChange(4, forForm)}
                     />
+                    <small style={zIndexLabelStyle}>Överst</small>
                 </RadioGroup>
             </FormControl>
         )
@@ -152,6 +165,12 @@ export default class SideBar extends Component {
 }
 
 /** @type {CSSStyleDeclaration} */
+const zIndexLabelStyle = {
+    marginRight: "16px",
+    paddingTop: "10px",
+}
+
+/** @type {CSSStyleDeclaration} */
 const formAndColorContainerStyle = {
     display: "flex",
     flexDirection: "row",
@@ -177,8 +196,10 @@ const gridStyleContainer = {
 
 /** @type {CSSStyleDeclaration} */
 const sideBarStyle = {
+    paddingLeft: "12px",
+    paddingRight: "12px",
     borderRight: "1px solid black",
-    width: "30%",
+    width: "34%",
     overflowY: "scroll",
     overflowX: "hidden",
     maxHeight: "100vh",

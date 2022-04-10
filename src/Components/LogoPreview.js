@@ -4,18 +4,23 @@ import React, { Component } from "react";
 
 export default class LogoPreview extends Component {
 
+    shouldFill = (form) => {
+        return !this.props.noFill.includes(form.chosenForm)
+    }
+
     render = () => {
         return (
             <div style={logoPreviewStyle}>
                 {
                     Object.values(this.props.currentFormState).map(form =>
                         <form.chosenForm
-                            className="logoPreviewForm"
+                            className={this.shouldFill(form) ? "logoPreviewFormNoStroke": "logoPreviewFormWithStroke"}
                             style={Object.assign({},
                                 formStyle,
                                 formStyles[form.name],
                                 {
-                                    fill: form.color,
+                                    fill: this.shouldFill(form) ? form.color : "none",
+                                    stroke: this.shouldFill(form) ? "none" : "black",
                                     bottom: (form.offsetBottom + form.top) + "px",
                                     left: (form.offsetLeft + form.left) + "px",
                                     zIndex: form.zIndex,
@@ -33,7 +38,6 @@ export default class LogoPreview extends Component {
 /** @type {CSSStyleDeclaration} */
 const formStyle = {
     position: "absolute",
-    stroke: "none",
 }
 
 const formStyles = {
