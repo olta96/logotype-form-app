@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ColorOption from "./ColorOption";
-import BaseFormOption from "./BaseFormOption";
+import FormOption from "./FormOption";
 import Slider from "@mui/material/Slider";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -11,25 +11,6 @@ import FormLabel from '@mui/material/FormLabel';
 
 
 export default class SideBar extends Component {
-
-    state = {
-        selectedFirstForm: 0,
-        selectedSecondForm: this.props.firstForms.length,
-        selectedThirdForm: this.props.firstForms.length + this.props.secondForms.length,
-        selectedFourthForm: this.props.firstForms.length + this.props.secondForms.length + this.props.thirdForms.length,
-    }
-
-    handleBaseFormOptionClick = (id) => {
-        if (id < this.props.firstForms.length)
-            this.setState({ selectedFirstForm: id });
-        else if (id < this.props.firstForms.length + this.props.secondForms.length)
-            this.setState({ selectedSecondForm: id });
-        else if (id < this.props.firstForms.length + this.props.secondForms.length + this.props.thirdForms.length)
-            this.setState({ selectedThirdForm: id });
-        else if (id < this.props.firstForms.length + this.props.secondForms.length + this.props.thirdForms.length + this.props.thirdForms.length)
-            this.setState({ selectedFourthForm: id });
-        this.props.handleFormSelection(id);
-    }
 
     buildColorGrid = (forForm) => {
         let colorId = 0;
@@ -51,18 +32,18 @@ export default class SideBar extends Component {
         )
     }
 
-    buildBaseFormGrid = (baseForms, startId, selectedId) => {
-        let baseFormId = startId;
+    buildFormGrid = (forms, forForm) => {
+        let formId = 0;
         return (
-            <div style={baseFormGridStyle}>
-                {baseForms.map(baseForm => {
+            <div style={formGridStyle}>
+                {forms.map(formOption => {
                     return (
-                        <BaseFormOption
-                            baseForm={baseForm}
-                            isSelected={selectedId === baseFormId}
-                            id={baseFormId}
-                            key={baseFormId++}
-                            handleClick={this.handleBaseFormOptionClick}
+                        <FormOption
+                            formOption={formOption}
+                            isSelected={this.props.currentFormState[forForm].formId === formId}
+                            handleClick={(id) => this.props.handleFormSelection(forForm, id, formOption)}
+                            id={formId}
+                            key={formId++}
                         />
                     )
                 })}
@@ -70,44 +51,12 @@ export default class SideBar extends Component {
         )
     }
 
-    buildFirstFormGrid = () => {
-        return this.buildBaseFormGrid(
-            this.props.firstForms,
-            0,
-            this.state.selectedFirstForm,
-        );
-    }
-
-    buildSecondFormGrid = () => {
-        return this.buildBaseFormGrid(
-            this.props.secondForms,
-            this.props.firstForms.length,
-            this.state.selectedSecondForm,
-        );
-    }
-
-    buildThirdFormGrid = () => {
-        return this.buildBaseFormGrid(
-            this.props.thirdForms,
-            this.props.firstForms.length + this.props.secondForms.length,
-            this.state.selectedThirdForm,
-        );
-    }
-
-    buildFourthFormGrid = () => {
-        return this.buildBaseFormGrid(
-            this.props.thirdForms,
-            this.props.firstForms.length + this.props.secondForms.length + this.props.thirdForms.length,
-            this.state.selectedFourthForm,
-        );
-    }
-
     getPositionSlider = (forForm, axis, initialValue) => {
         return (
             <div>
                 <Slider
                     orientation={axis === "top" ? "vertical" : "horizontal"}
-                    style={axis === "top" ? { height: "250px", marginTop: "10px", left: "-10px" } : {}}
+                    style={axis === "top" ? { height: "250px", marginTop: "10px", left: "-10px" } : { width: "300px"}}
                     max={200}
                     defaultValue={initialValue}
                     valueLabelDisplay="auto"
@@ -146,75 +95,55 @@ export default class SideBar extends Component {
         )
     }
 
+    getFormProps = () => {
+        return [
+            {
+                title: "Välj en basform",
+                name: "firstForm",
+            },
+            {
+                title: "Välj en sekundärform",
+                name: "secondForm",
+            },
+            {
+                title: "Välj en detaljform (valfritt)",
+                name: "thirdForm",
+            },
+            {
+                title: "Välj en detaljform (valfritt)",
+                name: "fourthForm",
+            },
+        ];
+    }
+
     render = () => {
         return (
             <div style={sideBarStyle}>
                 <ol>
-                    <li>
-                        <div>
-                            Välj en basform
-                        </div>
+                    {this.getFormProps().map(({ title, name }) =>
+                        <li>
+                            <div>
+                                {title}
+                            </div>
 
-                        <div style={formAndColorContainerStyle}>
-                            {this.getPositionSlider("firstForm", "top", 200)}
-                            <div style={gridStyleContainer}>
-                                {this.buildFirstFormGrid()}
+                            <div style={formAndColorContainerStyle}>
+                                {this.getPositionSlider(name, "top", this.props.currentFormState[name].top)}
+                                <div style={gridStyleContainer}>
+                                    {
+                                        this.buildFormGrid(
+                                            this.props.currentFormState[name].availableForms,
+                                            name,
+                                        )
+                                    }
+                                </div>
+                                <div style={gridStyleContainer}>
+                                    {this.buildColorGrid(name)}
+                                </div>
                             </div>
-                            <div style={gridStyleContainer}>
-                                {this.buildColorGrid("firstForm")}
-                            </div>
-                        </div>
-                        {this.getPositionSlider("firstForm", "left", 100)}
-                        {this.getZIndexRadioButtons("firstForm", this.props.currentFormState.firstForm.zIndex)}
-                    </li>
-                    <li>
-                        <div>
-                            Välj en sekundärform
-                        </div>
-                        <div style={formAndColorContainerStyle}>
-                            {this.getPositionSlider("secondForm", "top", 100)}
-                            <div style={gridStyleContainer}>
-                                {this.buildSecondFormGrid()}
-                            </div>
-                            <div style={gridStyleContainer}>
-                                {this.buildColorGrid("secondForm")}
-                            </div>
-                        </div>
-                        {this.getPositionSlider("secondForm", "left", 100)}
-                        {this.getZIndexRadioButtons("secondForm", this.props.currentFormState.secondForm.zIndex)}
-                    </li>
-                    <li>
-                        <div>
-                            Välj en detaljform (valfritt)
-                        </div>
-                        <div style={formAndColorContainerStyle}>
-                            {this.getPositionSlider("thirdForm", "top", 100)}
-                            <div style={gridStyleContainer}>
-                                {this.buildThirdFormGrid()}
-                            </div>
-                            <div style={gridStyleContainer}>
-                                {this.buildColorGrid("thirdForm")}
-                            </div>
-                        </div>
-                        {this.getPositionSlider("thirdForm", "left", 100)}
-                        {this.getZIndexRadioButtons("thirdForm", this.props.currentFormState.thirdForm.zIndex)}
-                    </li>
-                    <li>
-                        <div>
-                            Välj en detaljform (valfritt)
-                        </div>
-                        <div style={formAndColorContainerStyle}>
-                            {this.getPositionSlider("fourthForm", "top", 200)}
-                            <div style={gridStyleContainer}>
-                                {this.buildFourthFormGrid()}
-                            </div>
-                            <div style={gridStyleContainer}>
-                                {this.buildColorGrid("fourthForm")}
-                            </div>
-                        </div>
-                        {this.getPositionSlider("fourthForm", "left", 200)}
-                        {this.getZIndexRadioButtons("fourthForm", this.props.currentFormState.fourthForm.zIndex)}
-                    </li>
+                            {this.getPositionSlider(name, "left", this.props.currentFormState[name].left)}
+                            {this.getZIndexRadioButtons(name, this.props.currentFormState[name].zIndex)}
+                        </li>
+                    )}
                 </ol>
             </div>
         )
@@ -236,7 +165,7 @@ const colorGridStyle = {
 }
 
 /** @type {CSSStyleDeclaration} */
-const baseFormGridStyle = {
+const formGridStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
 }
@@ -249,7 +178,8 @@ const gridStyleContainer = {
 /** @type {CSSStyleDeclaration} */
 const sideBarStyle = {
     borderRight: "1px solid black",
-    width: "25%",
+    width: "30%",
     overflowY: "scroll",
+    overflowX: "hidden",
     maxHeight: "100vh",
 }

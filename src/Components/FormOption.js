@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 
-export default class BaseFormOption extends Component {
+export default class FormOption extends Component {
 
     state = {
         isHovered: false,
-    }
-
-    handleClick = () => {
-        this.props.handleClick(this.props.id);
     }
 
     getClassNames = () => {
@@ -16,14 +12,15 @@ export default class BaseFormOption extends Component {
 
     getStyle = () => {
         /** @type {CSSStyleDeclaration} */
-        const style = Object.assign({}, baseFormOptionStyle);
-
+        const style = Object.assign({}, formOptionStyle);
+        
         if (this.props.isSelected) {
             style.backgroundColor = "#ccc";
         }
         
-        if (this.state.isHovered)
+        if (this.state.isHovered) {
             style.backgroundColor = "#aaa";
+        }
 
         return style;
     }
@@ -38,10 +35,10 @@ export default class BaseFormOption extends Component {
 
     render = () => {
         return (
-            <this.props.baseForm
+            <this.props.formOption
                 className={this.getClassNames()}
                 style={this.getStyle()}
-                onClick={this.handleClick}
+                onClick={() => this.props.handleClick(this.props.id)}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             />
@@ -51,7 +48,7 @@ export default class BaseFormOption extends Component {
 }
 
 /** @type {CSSStyleDeclaration} */
-const baseFormOptionStyle = {
+const formOptionStyle = {
     width: "80px",
     height: "80px",
     marginTop: "15px",

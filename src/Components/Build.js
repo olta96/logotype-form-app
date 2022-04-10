@@ -1,21 +1,29 @@
 import React, { Component } from "react";
 import LogoPreview from "./LogoPreview";
+import Button from "@mui/material/Button";
 
 export default class Build extends Component {
 
     render() {
         return (
             <div style={buildStyle}>
-                <h1 style={titleStyle}>Bygg ihop din egen logotyp utifrån sloganen</h1>
+                <h1 style={titleStyle}>Bygg ihop din egen logotyp utifrån varumärkets slogan</h1>
+                <h2 style={Object.assign({ fontStyle: "italic" }, titleStyle)}>"{this.props.slogan}"</h2>
                 <div style={logoPreviewContainerStyle}>
                     <LogoPreview
                         handleFormSelectionForColoring={this.props.handleFormSelectionForColoring}
-                        firstForm={this.props.firstForm}
-                        secondForm={this.props.secondForm}
-                        thirdForm={this.props.thirdForm}
-                        fourthForm={this.props.fourthForm}
                         currentFormState={this.props.currentFormState}
                     />
+                </div>
+                <div style={buttonContainerStyle}>                    
+                    <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        onClick={this.props.handleLogoBuilderComplete}
+                    >
+                        Klar
+                    </Button>
                 </div>
             </div>
         );
@@ -24,7 +32,15 @@ export default class Build extends Component {
 }
 
 /** @type {CSSStyleDeclaration} */
+const buttonContainerStyle = {
+    marginTop: "25px",
+    display: "flex",
+    justifyContent: "center",
+}
+
+/** @type {CSSStyleDeclaration} */
 const logoPreviewContainerStyle = {
+    marginTop: "25px",
     width: "100%",
     display: "flex",
     justifyContent: "center",
@@ -34,10 +50,11 @@ const logoPreviewContainerStyle = {
 
 /** @type {CSSStyleDeclaration} */
 const buildStyle = {
-    width: "60%",
+    width: "70%",
 }
 
 /** @type {CSSStyleDeclaration} */
 const titleStyle = {
     textAlign: "center",
+    fontWeight: "normal",
 }
