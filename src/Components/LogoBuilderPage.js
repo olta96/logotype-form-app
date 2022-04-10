@@ -75,7 +75,7 @@ export default class LogoBuilderPage extends Component {
                     zIndexRadioChange={this.zIndexRadioChange}
                 />
                 <Build
-                    handleLogoBuilderComplete={() => this.props.handleLogoBuilderComplete("vattenfallLogoBuilder", this.state.currentFormState)}
+                    handleLogoBuilderComplete={() => this.props.handleLogoBuilderComplete("vattenfall", this.state.currentFormState)}
                     currentFormState={this.state.currentFormState}
                     slogan={this.props.logoBuilderProps.slogan}
                 />

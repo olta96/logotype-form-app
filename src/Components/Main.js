@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import LogoBuilderPage from "./LogoBuilderPage";
 import WelcomePage from "./WelcomePage";
+import Survey from "./Survey";
 
 import { ReactComponent as Bottom_semicircle } from "../svgs/Bottom_semicircle.svg";
 import { ReactComponent as Circle } from "../svgs/Circle.svg";
@@ -13,6 +14,11 @@ import { ReactComponent as Waterdrop } from "../svgs/Waterdrop.svg";
 import { ReactComponent as Sun } from "../svgs/Sun.svg";
 import { ReactComponent as Tree } from "../svgs/Tree.svg";
 import { ReactComponent as Leaf } from "../svgs/Leaf.svg";
+
+import { ReactComponent as vattenfallLogo } from "../svgs/Vattenfall.svg";
+import { ReactComponent as vattenfallLogoOld } from "../svgs/VattenfallOld.svg";
+
+
 
 const vattenfallColors = [
     "#F84949",
@@ -61,15 +67,17 @@ export default class Main extends Component {
             pageId: "welcome",
             pageState: "welcome",
             personalData: {},
-            logoBuilderProps: {
-                vattenfallLogoBuilder: {
+            pageProps: {
+                vattenfall: {
                     company: "Vattenfall",
                     colors: vattenfallColors,
                     slogan: "Ett fossilfritt liv inom en generation",
+                    actualLogo: vattenfallLogo,
+                    oldLogo: vattenfallLogoOld,
                 }
             },
             logoBuilderFormStates: {
-                vattenfallLogoBuilder: {
+                vattenfall: {
                     firstForm: {
                         name: "firstForm",
                         chosenForm: vattenfallFirstForms[0],
@@ -131,12 +139,15 @@ export default class Main extends Component {
         this.setState({
             personalData: personalDataState,
             pageState: "logoBuilder",
-            pageId: "vattenfallLogoBuilder",
+            pageId: "vattenfall",
         });
     }
 
     handleLogoBuilderComplete = (logoBuilderId, formState) => {
-        this.setState({ logoBuilderFormStates: { [logoBuilderId]: formState} });
+        this.setState({
+            pageState: "survey",
+            logoBuilderFormStates: { ...this.state.logoBuilderFormStates, [logoBuilderId]: formState},
+        });
     }
 
     render = () => {
@@ -150,9 +161,14 @@ export default class Main extends Component {
                         />
                     ) : pageState === "logoBuilder" ? (
                         <LogoBuilderPage
-                            logoBuilderProps={this.state.logoBuilderProps[pageId]}
+                            logoBuilderProps={this.state.pageProps[pageId]}
                             currentFormState={logoBuilderFormStates[pageId]}
                             handleLogoBuilderComplete={this.handleLogoBuilderComplete}
+                        />
+                    ) : pageState === "survey" ? (
+                        <Survey
+                            surveyProps={this.state.pageProps[pageId]}
+                            logoFormState={logoBuilderFormStates[pageId]}
                         />
                     ) : ""
                 }

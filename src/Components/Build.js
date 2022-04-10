@@ -11,7 +11,6 @@ export default class Build extends Component {
                 <h2 style={Object.assign({ fontStyle: "italic" }, titleStyle)}>"{this.props.slogan}"</h2>
                 <div style={logoPreviewContainerStyle}>
                     <LogoPreview
-                        handleFormSelectionForColoring={this.props.handleFormSelectionForColoring}
                         currentFormState={this.props.currentFormState}
                     />
                 </div>

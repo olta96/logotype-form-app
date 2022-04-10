@@ -19,7 +19,7 @@ export default class LogoPreview extends Component {
                                     bottom: (form.offsetBottom + form.top) + "px",
                                     left: (form.offsetLeft + form.left) + "px",
                                     zIndex: form.zIndex,
-                                }
+                                },
                             )}
                         />
                     )
