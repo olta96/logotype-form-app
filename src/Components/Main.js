@@ -3,9 +3,7 @@ import LogoBuilderPage from "./LogoBuilderPage";
 import WelcomePage from "./WelcomePage";
 import Survey from "./Survey";
 import DonePage from "./DonePage";
-
-// import { DataStore } from "@aws-amplify/datastore";
-// import { Answers } from "../models/index";
+import StoringResults from "./StoringResults";
 
 import { ReactComponent as Bottom_semicircle } from "../svgs/Bottom_semicircle.svg";
 import { ReactComponent as Top_semicircle } from "../svgs/Top_semicircle.svg";
@@ -388,12 +386,11 @@ export default class Main extends Component {
         );
     }
 
-    saveSurveyData = (surveyPageId, surveyData, newPageId) => {
+    saveNextPageId = (newPageId) => {
         localStorage.setItem(
             "surveyData",
             JSON.stringify({
                 ...JSON.parse(localStorage.getItem("surveyData")),
-                [surveyPageId]: surveyData,
                 pageState: "logoBuilder",
                 pageId: newPageId,
             }),
@@ -429,15 +426,54 @@ export default class Main extends Component {
 
     handleSurveyComplete = (surveyPageId, surveyAnswers) => {
 
-        // DataStore.save(new Answers({"data": JSON.stringify({ pd: this.state.personalData, [surveyPageId]: surveyAnswers })}));
-        // console.log("Saved data to datastore");
+        this.setState({
+            pageState: "storingResults",
+        });
 
         fetch("https://pmnt16svn8.execute-api.us-east-1.amazonaws.com/item", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 id: String(Date.now()),
-                data: JSON.stringify({ pd: this.state.personalData, [surveyPageId]: surveyAnswers }),
+                data: JSON.stringify({
+                    pd: this.state.personalData,
+                    [surveyPageId]: {
+                        "surveyAnswers": {
+                            ...surveyAnswers,
+                            question: undefined,
+                        },
+                        formState: {
+                            firstForm: {
+                                ...this.state.logoBuilderFormStates[surveyPageId].firstForm,
+                                name: undefined,
+                                chosenForm: undefined,
+                                availableForms: undefined,
+                                color: undefined,
+                            },
+                            secondForm: {
+                                ...this.state.logoBuilderFormStates[surveyPageId].secondForm,
+                                name: undefined,
+                                chosenForm: undefined,
+                                availableForms: undefined,
+                                color: undefined,
+                            },
+                            thirdForm: {
+                                ...this.state.logoBuilderFormStates[surveyPageId].thirdForm,
+                                name: undefined,
+                                chosenForm: undefined,
+                                availableForms: undefined,
+                                color: undefined,
+                            },
+                            fourthForm: {
+                                ...this.state.logoBuilderFormStates[surveyPageId].fourthForm,
+                                name: undefined,
+                                chosenForm: undefined,
+                                availableForms: undefined,
+                                color: undefined,
+                            },
+                        },
+                    }
+                }),
             }),
         }).then(response => {
             if (response.ok) {
@@ -445,32 +481,32 @@ export default class Main extends Component {
             } else {
                 console.log("Error saving data to API");
             }
+
+            const newPageId =
+                surveyPageId === "vattenfall" ?
+                    "volvo"
+                    :
+                surveyPageId === "volvo" ?
+                    "spotify"
+                    :
+                    "done"
+
+            this.saveNextPageId(newPageId);
+
+            if (newPageId === "done") {
+                this.storeSurveyDone();
+                this.setState({
+                    pageState: "done",
+                    pageId: "done",
+                });
+            } else {
+                this.setState({
+                    pageState: "logoBuilder",
+                    surveyAnswers: { ...this.state.surveyAnswers, [surveyPageId]: surveyAnswers},
+                    pageId: newPageId,
+                });
+            }
         });
-
-        const newPageId =
-            surveyPageId === "vattenfall" ?
-                "volvo"
-                :
-            surveyPageId === "volvo" ?
-                "spotify"
-                :
-                "done"
-
-        this.saveSurveyData(surveyPageId, surveyAnswers, newPageId);
-
-        if (newPageId === "done") {
-            this.storeSurveyDone();
-            this.setState({
-                pageState: "done",
-                pageId: "done",
-            });
-        } else {
-            this.setState({
-                pageState: "logoBuilder",
-                surveyAnswers: { ...this.state.surveyAnswers, [surveyPageId]: surveyAnswers},
-                pageId: newPageId,
-            });
-        }
     }
 
     render = () => {
@@ -498,6 +534,8 @@ export default class Main extends Component {
                             noFill={noFill}
                             surveyPageId={pageId}
                         />
+                    ) : pageState === "storingResults" ? (
+                        <StoringResults />
                     ) : <DonePage />
                 }
             </div>
