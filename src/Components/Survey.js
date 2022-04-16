@@ -128,7 +128,8 @@ export default class Survey extends Component {
                 {
                     this.state.question === 0 ?
                         <div>
-                            <h1 style={questionStyle}><i>"{this.props.surveyProps.slogan}"</i><br />Den vänstra logotypen är resultatet av dina val. Den högra logotypen är varumärkets egentliga logotyp. Kan du gissa vilket varumärke som ligger bakom den högra logotypen och dess slogan ovan?</h1>
+                            <h1
+                                style={questionStyle}><i>"{this.props.surveyProps.slogan}"</i><br />Den vänstra logotypen är resultatet av dina val. Den högra logotypen är varumärkets egentliga logotyp. Kan du gissa vilket varumärke som ligger bakom den högra logotypen och dess slogan ovan?</h1>
                             <div style={logosContainerStyle}>
                                 <div style={logoPreviewStyle}>
                                     <LogoPreview

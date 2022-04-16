@@ -4,6 +4,9 @@ import WelcomePage from "./WelcomePage";
 import Survey from "./Survey";
 import DonePage from "./DonePage";
 
+// import { DataStore } from "@aws-amplify/datastore";
+// import { Answers } from "../models/index";
+
 import { ReactComponent as Bottom_semicircle } from "../svgs/Bottom_semicircle.svg";
 import { ReactComponent as Top_semicircle } from "../svgs/Top_semicircle.svg";
 import { ReactComponent as None } from "../svgs/None.svg";
@@ -176,11 +179,11 @@ export default class Main extends Component {
 
     constructor(props) {
         super(props);
-        const { pageId="welcome", pageState="welcome" } = this.getLocalStorageData();
+        const { pageId="welcome", pageState="welcome", personalData={} } = this.getLocalStorageData();
         this.state = {
             pageId: pageId,
             pageState: pageState,
-            personalData: {},
+            personalData: personalData,
             surveyAnswers: {},
             pageProps: {
                 vattenfall: {
@@ -425,6 +428,25 @@ export default class Main extends Component {
     }
 
     handleSurveyComplete = (surveyPageId, surveyAnswers) => {
+
+        // DataStore.save(new Answers({"data": JSON.stringify({ pd: this.state.personalData, [surveyPageId]: surveyAnswers })}));
+        // console.log("Saved data to datastore");
+
+        fetch("https://pmnt16svn8.execute-api.us-east-1.amazonaws.com/item", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: String(Date.now()),
+                data: JSON.stringify({ pd: this.state.personalData, [surveyPageId]: surveyAnswers }),
+            }),
+        }).then(response => {
+            if (response.ok) {
+                console.log("Saved data to API");
+            } else {
+                console.log("Error saving data to API");
+            }
+        });
+
         const newPageId =
             surveyPageId === "vattenfall" ?
                 "volvo"
@@ -433,7 +455,7 @@ export default class Main extends Component {
                 "spotify"
                 :
                 "done"
-        
+
         this.saveSurveyData(surveyPageId, surveyAnswers, newPageId);
 
         if (newPageId === "done") {
