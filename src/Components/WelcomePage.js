@@ -9,7 +9,7 @@ export default class WelcomePage extends Component {
     render = () => {
         return (
             <div style={welcomePageStyle}>
-                <h1 style={{ textAlign: "center", marginBottom: "50px" }}>Experimentell enkät om logotyper</h1>
+                <h1 style={{ textAlign: "center", marginBottom: "50px" }}>Interaktiv enkät om logotyper</h1>
                 <main style={mainStyle}>
                     <SurveyDescription />
                     <Divider orientation="vertical" style={{ width: "2%" }} flexItem/>
