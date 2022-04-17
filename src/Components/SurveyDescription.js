@@ -62,23 +62,28 @@ export default class SurveyDescription extends Component {
                     Välkommen!
                 </p>
                 <p>
-                    Den här enkäten syftar till att användas i ett kandidatarbete i medieteknik vid Malmö universitet. Syftet med studien är att undersöka huruvida konsumenter föredrar en mer simplifierad och enkel logotyp över en detaljerad och mer komplicerad logotyp. Studien ska även undersöka huruvida konsumenter upplever varumärket och förtroendet för det beroende på om dess logotyp är av en förenklad variant eller en mer detaljerad. Enkäten är anonym!
+                    Den här enkäten kommer att användas som underlag i ett kandidatarbete i medieteknik vid Malmö universitet. Syftet med studien är att undersöka vilken sorts logotyp konsumenter föredrar. Studien ska även undersöka hur konsumenter upplever förtroendet för varumärket baserat på dess logotyp.
                 </p>
-                <Button variant="outlined" onClick={handleClickOpen}>
-                    Läs mer
-                </Button>
-                <this.BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={this.state.open}
-                >
-                    <DialogContent dividers>
-                        <this.BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} />
-                        <Typography gutterBottom>
-                            Samtliga personuppgifter är anonyma. Ålder, kön och ort kommer endast att användas för analys av demografi. Enkäten samlar inte in några namn eller adresser, datat kommer endast att användas för ett kandidatarbete. All data kommer att raderas senast 31 augusti.
-                        </Typography>
-                    </DialogContent>
-                </this.BootstrapDialog>
+                <p>
+                    <small><i>Enkäten är anonym.</i></small>
+                </p>
+                <p>
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Läs mer
+                    </Button>
+                    <this.BootstrapDialog
+                        onClose={handleClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={this.state.open}
+                    >
+                        <DialogContent dividers>
+                            <this.BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} />
+                            <Typography gutterBottom>
+                                Samtliga personuppgifter är anonyma. Ålder, kön och ort kommer endast att användas för analys av demografi. Enkäten samlar inte in några namn eller adresser, datat kommer endast att användas för ett kandidatarbete. All data kommer att raderas senast 31 augusti.
+                            </Typography>
+                        </DialogContent>
+                    </this.BootstrapDialog>
+                </p>
             </div>
         );
     }
